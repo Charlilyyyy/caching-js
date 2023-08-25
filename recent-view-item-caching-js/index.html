@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cached item</title>
+</head>
+<body>
+    <div class="parent-div">
+        <button id="1" onclick="addToCache(this.id)">messi</button>
+        <button id="2" onclick="addToCache(this.id)">ronaldo</button>
+        <button id="3" onclick="addToCache(this.id)">hazard</button>
+        <button id="4" onclick="addToCache(this.id)">maradona</button>
+        <button id="5" onclick="addToCache(this.id)">mbappe</button>
+        <button id="6" onclick="addToCache(this.id)">rooney</button>
+        <button id="7" onclick="addToCache(this.id)">maldini</button>
+        <button id="8" onclick="addToCache(this.id)">cannavaro</button>
+    </div>
+    <div class="recent-view-header">
+        <h3>RECENTLY VIEW ITEM</h3>
+    </div>
+    <div id="recently-viewed"></div>
+
+    <script>
+        function addToCache(id) {
+            const player = document.getElementById(id).textContent;
+            
+            let recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+            
+            recentlyViewed.unshift(player);
+            
+            
+            if (recentlyViewed.length > 10) {
+                recentlyViewed = recentlyViewed.slice(0, 10); 
+            }
+            
+            localStorage.setItem("recentlyViewed", JSON.stringify(recentlyViewed));
+            
+            
+            updateRecentlyViewedDisplay();
+        }
+
+        function updateRecentlyViewedDisplay() {
+            const recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+            const recentlyViewedContainer = document.getElementById("recently-viewed");
+
+            recentlyViewedContainer.innerHTML = ""; 
+
+            recentlyViewed.forEach(player => {
+                const playerElement = document.createElement("p");
+                playerElement.textContent = player;
+                recentlyViewedContainer.appendChild(playerElement);
+            });
+        }
+
+        
+        const recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+        localStorage.setItem("recentlyViewed", JSON.stringify(recentlyViewed));
+
+        
+        updateRecentlyViewedDisplay();
+    </script>
+</body>
+</html>
